@@ -47,6 +47,7 @@ function initSnake() {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
+        level:0
     }
 }
 
@@ -67,8 +68,9 @@ function drawScore() {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, 50);
-    scoreCtx.font = "30px Arial";
-    scoreCtx.fillText("Score: " + snake1.score, 10, scoreCanvas.scrollHeight / 2);
+    scoreCtx.font = "16px Arial";
+    scoreCtx.fillText("Score: " + snake1.score, 10,20);
+    scoreCtx.fillText("Level:" + snake1.level,10,40);
 }
 
 function drawApple(ctx, apple) {
@@ -129,6 +131,9 @@ function eat(snake) {
     if (snake.head.x == apple1.position.x && snake.head.y == apple1.position.y) {
         apple1.position = initPosition();
         snake.score++;
+        if(snake.score % 5== 0) {
+            snake.level++;
+        }
         snake.body.push({x: snake.head.x, y: snake.head.y});
         eat.play();
     }
@@ -136,6 +141,9 @@ function eat(snake) {
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
         apple2.position = initPosition();
         snake.score++;
+        if(snake.score % 5== 0) {
+            snake.level++;
+        }
         snake.body.push({x: snake.head.x, y: snake.head.y});
         eat.play();
     }
@@ -230,6 +238,7 @@ function turn(snake, direction) {
         snake.direction = direction;
     }
 }
+
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "ArrowLeft") {
