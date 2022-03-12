@@ -173,6 +173,10 @@ function checkCollision(snakes) {
         }
     }
     if (isCollide) {
+        var gameOver =  new Audio();
+        gameOver.src="./assets/sound/game-over.mp3";
+        gameOver.play();
+
         alert("Game over");
         snake1 = initSnake();
     }
