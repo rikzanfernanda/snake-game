@@ -162,7 +162,7 @@ function moveUp(snake) {
 
 function checkCollision(snakes) {
     let isCollide = false;
-    //this
+    
     for (let i = 0; i < snakes.length; i++) {
         for (let j = 0; j < snakes.length; j++) {
             for (let k = 1; k < snakes[j].body.length; k++) {
