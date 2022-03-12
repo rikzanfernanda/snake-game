@@ -14,6 +14,7 @@ const MOVE_INTERVAL = 150;
 let snake1 = initSnake();
 let apple1 = initApple();
 let apple2 = initApple();
+let love = initLove();
 
 function initGame() {
     move(snake1);
@@ -47,12 +48,19 @@ function initSnake() {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
+        love: 3
     }
 }
 
 function initApple() {
     return {
         color: 'red',
+        position: initPosition()
+    }
+}
+
+function initLove() {
+    return {
         position: initPosition()
     }
 }
@@ -67,8 +75,15 @@ function drawScore() {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, 50);
-    scoreCtx.font = "30px Arial";
-    scoreCtx.fillText("Score: " + snake1.score, 10, scoreCanvas.scrollHeight / 2);
+    scoreCtx.font = "16px Arial";
+    scoreCtx.fillText("Score: " + snake1.score, 300, 20);
+
+    let img = new Image();
+    img.src = 'assets/img/heart.png';
+
+    for (let i = 0; i < snake1.love; i++) {
+        scoreCtx.drawImage(img, 16*i+10, 10, CELL_SIZE, CELL_SIZE);
+    }
 }
 
 function drawApple(ctx, apple) {
@@ -89,6 +104,27 @@ function drawBody(ctx, x, y) {
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+function drawLove(ctx, love) {
+    let img = new Image();
+    img.src = 'assets/img/heart.png';
+    ctx.drawImage(img, love.position.x * CELL_SIZE, love.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+function isPrima(n) {
+    let divider = 0;
+    for (let i = 1; i <= n; i++) {
+        if (n % i == 0) {
+            divider++;
+        }
+    }
+
+    if (divider == 2) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
@@ -104,6 +140,10 @@ function draw() {
         drawApple(ctx, apple1);
         drawApple(ctx, apple2);
         drawScore();
+        
+        if (isPrima(snake1.score)) {
+            drawLove(ctx, love);
+        }
     }, REDRAW_INTERVAL);
 }
 
@@ -131,6 +171,13 @@ function eat(snake) {
 
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
         apple2.position = initPosition();
+        snake.score++;
+        snake.body.push({x: snake.head.x, y: snake.head.y});
+    }
+
+    if (snake.head.x == love.position.x && snake.head.y == love.position.y) {
+        love.position = initPosition();
+        snake.love++;
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
     }
@@ -167,7 +214,12 @@ function checkCollision(snakes) {
         for (let j = 0; j < snakes.length; j++) {
             for (let k = 1; k < snakes[j].body.length; k++) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
-                    isCollide = true;
+                    if (snakes[i].love > 0) {
+                        snakes[i].love--;
+                        alert("Be careful!");
+                    } else {
+                        isCollide = true;
+                    }
                 }
             }
         }
