@@ -123,16 +123,21 @@ function teleport(snake) {
 }
 
 function eat(snake) {
+    var eat =  new Audio();
+    eat.src="./assets/sound/eat.mp3";
+
     if (snake.head.x == apple1.position.x && snake.head.y == apple1.position.y) {
         apple1.position = initPosition();
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+        eat.play();
     }
 
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
         apple2.position = initPosition();
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+        eat.play();
     }
 }
 
