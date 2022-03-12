@@ -185,6 +185,7 @@ function eat(snake) {
         snake.love++;
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+        eat.play();
     }
 }
 
