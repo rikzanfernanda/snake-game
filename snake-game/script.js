@@ -215,7 +215,10 @@ function eat(snake) {
         snake.score++;
         levelUp(snake);
         snake.body.push({x: snake.head.x, y: snake.head.y});
-        eat.play();
+        
+        var eatLove =  new Audio();
+        eatLove.src="./assets/sound/eatLove.mp3";
+        eatLove.play();
     }
 }
 
