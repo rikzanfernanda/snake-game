@@ -284,6 +284,8 @@ function moveUp(snake) {
 }
 
 function checkCollision(snakes) {
+    var die =  new Audio();
+    die.src="./assets/sound/die.mp3";
     let isCollide = false;
     
     for (let i = 0; i < snakes.length; i++) {
@@ -291,8 +293,13 @@ function checkCollision(snakes) {
             if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
+                    die.play();
                     alert("Be careful!");
-                    snakes[i].head = initPosition();
+                    snake1 = {
+                        ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    initGame();
                 } else {
                     isCollide = true;
                 }
@@ -301,8 +308,13 @@ function checkCollision(snakes) {
             if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 15) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
+                    die.play();
                     alert("Be careful!");
-                    snakes[i].head = initPosition();
+                    snake1 = {
+                        ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    initGame();
                 } else {
                     isCollide = true;
                 }
@@ -311,8 +323,13 @@ function checkCollision(snakes) {
             if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 17 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
+                    die.play();
                     alert("Be careful!");
-                    snakes[i].head = initPosition();
+                    snake1 = {
+                        ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    initGame();
                 } else {
                     isCollide = true;
                 }
@@ -321,8 +338,13 @@ function checkCollision(snakes) {
             if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 6 && snakes[i].head.y >= 15 && snakes[i].head.y < 30 || snakes[i].head.x == 27 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
+                    die.play();
                     alert("Be careful!");
-                    snakes[i].head = initPosition();
+                    snake1 = {
+                        ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    initGame();
                 } else {
                     isCollide = true;
                 }
@@ -334,10 +356,7 @@ function checkCollision(snakes) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
-                        var die =  new Audio();
-                        die.src="./assets/sound/die.mp3";
                         die.play();
-
                         alert("Be careful!");
                         snake1 = {
                             ...snake1, 
