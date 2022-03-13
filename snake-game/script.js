@@ -129,10 +129,10 @@ function isPrima(n) {
 }
 
 function draw() {
-    setInterval(function() {
-        let snakeCanvas = document.getElementById("snakeBoard");
-        let ctx = snakeCanvas.getContext("2d");
+    let snakeCanvas = document.getElementById("snakeBoard");
+    let ctx = snakeCanvas.getContext("2d");
 
+    setInterval(function() {
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         
         drawHead(ctx, snake1);
@@ -143,11 +143,15 @@ function draw() {
         drawApple(ctx, apple1);
         drawApple(ctx, apple2);
         drawScore();
-        
+    }, REDRAW_INTERVAL);
+
+    setInterval(function() {
+        ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+
         if (isPrima(snake1.score)) {
             drawLove(ctx, love);
         }
-    }, REDRAW_INTERVAL);
+    }, 100);
 }
 
 function teleport(snake) {
