@@ -134,6 +134,20 @@ function draw() {
 
     setInterval(function() {
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+        if (snake1.level == 2) {
+            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+        } else if (snake1.level == 3) {
+            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(4*CELL_SIZE, 15*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+        } else if (snake1.level == 4) {
+            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(17*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
+        } else if (snake1.level == 5) {
+            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(6*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
+            ctx.fillRect(27*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
+        }
         
         drawHead(ctx, snake1);
         for (let i = 1; i < snake1.body.length; i++) {
@@ -248,6 +262,48 @@ function checkCollision(snakes) {
     let isCollide = false;
     
     for (let i = 0; i < snakes.length; i++) {
+        if (snakes[i].level == 2) {
+            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10) {
+                if (snakes[i].love > 0) {
+                    snakes[i].love--;
+                    alert("Be careful!");
+                    snakes[i].head = initPosition();
+                } else {
+                    isCollide = true;
+                }
+            }
+        } else if (snakes[i].level == 3) {
+            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 15) {
+                if (snakes[i].love > 0) {
+                    snakes[i].love--;
+                    alert("Be careful!");
+                    snakes[i].head = initPosition();
+                } else {
+                    isCollide = true;
+                }
+            }
+        } else if (snakes[i].level == 4) {
+            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 17 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
+                if (snakes[i].love > 0) {
+                    snakes[i].love--;
+                    alert("Be careful!");
+                    snakes[i].head = initPosition();
+                } else {
+                    isCollide = true;
+                }
+            }
+        } else if (snakes[i].level == 5) {
+            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 6 && snakes[i].head.y >= 15 && snakes[i].head.y < 30 || snakes[i].head.x == 27 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
+                if (snakes[i].love > 0) {
+                    snakes[i].love--;
+                    alert("Be careful!");
+                    snakes[i].head = initPosition();
+                } else {
+                    isCollide = true;
+                }
+            }
+        }
+        
         for (let j = 0; j < snakes.length; j++) {
             for (let k = 1; k < snakes[j].body.length; k++) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
