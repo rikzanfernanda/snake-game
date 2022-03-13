@@ -1,5 +1,5 @@
-const CELL_SIZE = 16;
-const CANVAS_SIZE = 400;
+const CELL_SIZE = 12;
+const CANVAS_SIZE = 420;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
 const HEIGHT = CANVAS_SIZE / CELL_SIZE;
@@ -9,7 +9,7 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-const MOVE_INTERVAL = 150;
+let MOVE_INTERVAL = 150;
 
 let snake1 = initSnake();
 let apple1 = initApple();
@@ -77,14 +77,15 @@ function drawScore() {
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, 50);
     scoreCtx.font = "16px Arial";
-    scoreCtx.fillText("Score: " + snake1.score, 300, 20);
-    scoreCtx.fillText("Level: " + snake1.level, 300, 40);
+    scoreCtx.fillText("Score: " + snake1.score, 320, 20);
+    scoreCtx.fillText("Level: " + snake1.level, 320, 40);
+    scoreCtx.fillText("Speed: " + MOVE_INTERVAL + " ms", 10, 40);
 
     let img = new Image();
     img.src = 'assets/img/heart.png';
 
     for (let i = 0; i < snake1.love; i++) {
-        scoreCtx.drawImage(img, 16*i+10, 10, CELL_SIZE, CELL_SIZE);
+        scoreCtx.drawImage(img, 12*i+10, 10, CELL_SIZE, CELL_SIZE);
     }
 }
 
@@ -167,6 +168,20 @@ function teleport(snake) {
 function levelUp(snake) {
     if (snake.score % 5 == 0) {
         snake.level++;
+        if (snake.level <= 5) {
+            alert("Level " + snake.level);
+            snake1 = {
+                ...snake1, 
+                ...initHeadAndBody()
+            };
+            initGame();
+            MOVE_INTERVAL -= 15;
+        } else if (snake.level > 5) {
+            alert("Congratulation!");
+            MOVE_INTERVAL = 150;
+            snake1 = initSnake();
+            initGame();
+        }
     }
 }
 
@@ -234,6 +249,7 @@ function checkCollision(snakes) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
                         alert("Be careful!");
+                        snakes[i].head = initPosition();
                     } else {
                         isCollide = true;
                     }
@@ -247,6 +263,7 @@ function checkCollision(snakes) {
         gameOver.play();
 
         alert("Game over");
+        MOVE_INTERVAL = 150;
         snake1 = initSnake();
     }
     return isCollide;
