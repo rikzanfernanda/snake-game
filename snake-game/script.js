@@ -76,6 +76,11 @@ function drawScore() {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, 50);
+
+    scoreCtx.fillStyle = '#78c244';
+    scoreCtx.fillRect(0, 0, CANVAS_SIZE, 50);
+
+    scoreCtx.fillStyle = '#000000';
     scoreCtx.font = "16px Arial";
     scoreCtx.fillText("Score: " + snake1.score, 320, 20);
     scoreCtx.fillText("Level: " + snake1.level, 320, 40);
@@ -135,11 +140,31 @@ function draw() {
     setInterval(function() {
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
+        for (let i = 0; i < WIDTH; i++) {
+            for (let j = 0; j < WIDTH; j++) {
+                if (i % 2 == 0) {
+                    if (j % 2 == 0) {
+                        ctx.fillStyle = '#ffca57';
+                    } else {
+                        ctx.fillStyle = '#ffd16b';
+                    }
+                } else {
+                    if (j % 2 == 0) {
+                        ctx.fillStyle = '#ffd16b';
+                    } else {
+                        ctx.fillStyle = '#ffca57';
+                    }
+                }
+                ctx.fillRect(i*CELL_SIZE, j*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            }
+        }
+
         drawHead(ctx, snake1);
         for (let i = 1; i < snake1.body.length; i++) {
             drawBody(ctx, snake1.body[i].x, snake1.body[i].y);
         }
 
+        ctx.fillStyle = '#000000';
         if (snake1.level == 2) {
             ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 3) {
@@ -160,7 +185,7 @@ function draw() {
     }, REDRAW_INTERVAL);
 
     setInterval(function() {
-        ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+        // ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
 
         if (isPrima(snake1.score)) {
             drawLove(ctx, love);
