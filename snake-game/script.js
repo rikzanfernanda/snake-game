@@ -177,7 +177,7 @@ function levelUp(snake) {
             MOVE_INTERVAL -= 20;
         } else if (snake.level > 5) {
             alert("Congratulation!");
-            MOVE_INTERVAL = 150;
+            MOVE_INTERVAL = 140;
             snake1 = initSnake();
             initGame();
         }
