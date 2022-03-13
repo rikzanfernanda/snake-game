@@ -186,6 +186,9 @@ function levelUp(snake) {
             snake1 = initSnake();
             initGame();
         }
+        var level =  new Audio();
+        level.src="./assets/sound/level-up.mp3";
+        level.play();
     }
 }
 
