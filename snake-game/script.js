@@ -253,8 +253,16 @@ function checkCollision(snakes) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
+                        var die =  new Audio();
+                        die.src="./assets/sound/die.mp3";
+                        die.play();
+
                         alert("Be careful!");
-                        snakes[i].head = initPosition();
+                        snake1 = {
+                            ...snake1, 
+                            ...initHeadAndBody()
+                        };
+                        initGame();
                     } else {
                         isCollide = true;
                     }
