@@ -135,6 +135,11 @@ function draw() {
     setInterval(function() {
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
+        drawHead(ctx, snake1);
+        for (let i = 1; i < snake1.body.length; i++) {
+            drawBody(ctx, snake1.body[i].x, snake1.body[i].y);
+        }
+
         if (snake1.level == 2) {
             ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 3) {
@@ -147,11 +152,6 @@ function draw() {
             ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
             ctx.fillRect(6*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
             ctx.fillRect(27*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
-        }
-        
-        drawHead(ctx, snake1);
-        for (let i = 1; i < snake1.body.length; i++) {
-            drawBody(ctx, snake1.body[i].x, snake1.body[i].y);
         }
         
         drawApple(ctx, apple1);
