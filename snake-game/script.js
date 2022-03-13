@@ -9,7 +9,7 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-let MOVE_INTERVAL = 150;
+let MOVE_INTERVAL = 140;
 
 let snake1 = initSnake();
 let apple1 = initApple();
@@ -48,7 +48,7 @@ function initSnake() {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
-        level: 0,
+        level: 1,
         love: 3
     }
 }
@@ -174,15 +174,10 @@ function levelUp(snake) {
         snake.level++;
         if (snake.level <= 5) {
             alert("Level " + snake.level);
-            snake1 = {
-                ...snake1, 
-                ...initHeadAndBody()
-            };
-            initGame();
-            MOVE_INTERVAL -= 15;
+            MOVE_INTERVAL -= 20;
         } else if (snake.level > 5) {
             alert("Congratulation!");
-            MOVE_INTERVAL = 150;
+            MOVE_INTERVAL = 140;
             snake1 = initSnake();
             initGame();
         }
@@ -258,8 +253,16 @@ function checkCollision(snakes) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
+                        var die =  new Audio();
+                        die.src="./assets/sound/die.mp3";
+                        die.play();
+
                         alert("Be careful!");
-                        snakes[i].head = initPosition();
+                        snake1 = {
+                            ...snake1, 
+                            ...initHeadAndBody()
+                        };
+                        initGame();
                     } else {
                         isCollide = true;
                     }
@@ -273,7 +276,7 @@ function checkCollision(snakes) {
         gameOver.play();
 
         alert("Game over");
-        MOVE_INTERVAL = 150;
+        MOVE_INTERVAL = 140;
         snake1 = initSnake();
     }
     return isCollide;
