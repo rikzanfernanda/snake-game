@@ -3,7 +3,7 @@
 ## Project Team
 ### Product Owner & Scrum Master
 - RIKZAN FERNANDA (FE2167548)
-- APRILIA ANNISA SURYO
+- APRILIA ANNISA SURYO (FE2253833)
 
 ### Development Team
 - MEILIKA DWI PUTRI (FE2072250)
