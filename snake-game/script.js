@@ -16,11 +16,9 @@ let snake1 = initSnake();
 let apple1 = initApple();
 let apple2 = initApple();
 let love = initLove();
-let thorn = initThorn();
 
 function initGame() {
     move(snake1);
-    move(thorn);
 }
 
 initGame();
@@ -64,13 +62,6 @@ function initApple() {
 function initLove() {
     return {
         position: initPosition()
-    }
-}
-
-function initThorn() {
-    return {
-        ...initHeadAndBody(),
-        direction: initDirection()
     }
 }
 
@@ -121,12 +112,6 @@ function drawLove(ctx, love) {
     ctx.drawImage(img, love.position.x * CELL_SIZE, love.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
-function drawThorn (ctx, thorn) {
-    let img = new Image();
-    img.src = 'assets/img/thorn.png';
-    ctx.drawImage(img, thorn.head.x * CELL_SIZE, thorn.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-}
-
 function isPrima(n) {
     let divider = 0;
     for (let i = 1; i <= n; i++) {
@@ -174,12 +159,9 @@ function draw() {
         }
 
         ctx.fillStyle = '#000000';
-        if (snake1.level == 1) {
-            drawThorn(ctx, thorn);
-        } else if (snake1.level == 2) {
+        if (snake1.level == 2) {
             ctx.fillRect(10*CELL_SIZE, 12*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 3) {
-            drawThorn(ctx, thorn);
             ctx.fillRect(10*CELL_SIZE, 10*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
             ctx.fillRect(10*CELL_SIZE, 15*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 4) {
@@ -301,26 +283,7 @@ function checkCollision(snakes) {
     let isCollide = false;
     
     for (let i = 0; i < snakes.length; i++) {
-        if (snakes[i].level == 1) {
-            if (snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
-                if (snakes[i].love > 0) {
-                    snakes[i].love--;
-                    die.play();
-                    alert("Be careful!");
-                    snake1 = {
-                        ...snake1, 
-                        ...initHeadAndBody()
-                    };
-                    thorn = {
-                        ...thorn, 
-                        ...initHeadAndBody()
-                    };
-                    initGame();
-                } else {
-                    isCollide = true;
-                }
-            }
-        } else if (snakes[i].level == 2) {
+        if (snakes[i].level == 2) {
             if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 12 ) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
@@ -336,17 +299,13 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 3) {
-            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 10 || snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 15 || snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
+            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 10 || snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 15) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
                     alert("Be careful!");
                     snake1 = {
                         ...snake1, 
-                        ...initHeadAndBody()
-                    };
-                    thorn = {
-                        ...thorn, 
                         ...initHeadAndBody()
                     };
                     initGame();
@@ -388,7 +347,7 @@ function checkCollision(snakes) {
         
         for (let j = 0; j < snakes.length; j++) {
             for (let k = 1; k < snakes[j].body.length; k++) {
-                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y || thorn.head.x == snakes[j].body[k].x && thorn.head.y == snakes[j].body[k].y) {
+                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
                         die.play();
