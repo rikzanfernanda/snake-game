@@ -1,8 +1,9 @@
-const CELL_SIZE = 12;
-const CANVAS_SIZE = 420;
+const CELL_SIZE = 20;
+const CANVAS_SIZE_X = 1200;
+const CANVAS_SIZE_Y = 500;
 const REDRAW_INTERVAL = 50;
-const WIDTH = CANVAS_SIZE / CELL_SIZE;
-const HEIGHT = CANVAS_SIZE / CELL_SIZE;
+const WIDTH = CANVAS_SIZE_X / CELL_SIZE;
+const HEIGHT = CANVAS_SIZE_Y / CELL_SIZE;
 const DIRECTION = {
     LEFT: 0,
     RIGHT: 1,
@@ -77,22 +78,22 @@ function drawScore() {
     let scoreCanvas = document.getElementById("score");
     let scoreCtx = scoreCanvas.getContext("2d");
 
-    scoreCtx.clearRect(0, 0, CANVAS_SIZE, 50);
+    scoreCtx.clearRect(0, 0, CANVAS_SIZE_X, 50);
 
     scoreCtx.fillStyle = '#78c244';
-    scoreCtx.fillRect(0, 0, CANVAS_SIZE, 50);
+    scoreCtx.fillRect(0, 0, CANVAS_SIZE_X, 50);
 
     scoreCtx.fillStyle = '#000000';
-    scoreCtx.font = "16px Arial";
-    scoreCtx.fillText("Score: " + snake1.score, 320, 20);
-    scoreCtx.fillText("Level: " + snake1.level, 320, 40);
-    scoreCtx.fillText("Speed: " + MOVE_INTERVAL + " ms", 10, 40);
+    scoreCtx.font = "20px Courier";
+    scoreCtx.fillText("Score: " + snake1.score, 700, 20);
+    scoreCtx.fillText("Level: " + snake1.level, 1000, 20);
+    scoreCtx.fillText("Speed: " + MOVE_INTERVAL + " ms", 10, 20);
 
     let img = new Image();
     img.src = 'assets/img/heart.png';
 
     for (let i = 0; i < snake1.love; i++) {
-        scoreCtx.drawImage(img, 12*i+10, 10, CELL_SIZE, CELL_SIZE);
+        scoreCtx.drawImage(img, 30*i+300, 0, 30, 30);
     }
 }
 
@@ -146,7 +147,7 @@ function draw() {
     let ctx = snakeCanvas.getContext("2d");
 
     setInterval(function() {
-        ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+        ctx.clearRect(0, 0, CANVAS_SIZE_X, CANVAS_SIZE_Y);
 
         for (let i = 0; i < WIDTH; i++) {
             for (let j = 0; j < WIDTH; j++) {
@@ -176,18 +177,18 @@ function draw() {
         if (snake1.level == 1) {
             drawThorn(ctx, thorn);
         } else if (snake1.level == 2) {
-            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(10*CELL_SIZE, 12*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 3) {
             drawThorn(ctx, thorn);
-            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
-            ctx.fillRect(4*CELL_SIZE, 15*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(10*CELL_SIZE, 10*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(10*CELL_SIZE, 15*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 4) {
-            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
-            ctx.fillRect(17*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
+            ctx.fillRect(10*CELL_SIZE, 6*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(30*CELL_SIZE, 10*CELL_SIZE, CELL_SIZE, 10*CELL_SIZE);
         } else if (snake1.level == 5) {
-            ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
-            ctx.fillRect(6*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
-            ctx.fillRect(27*CELL_SIZE, 15*CELL_SIZE, CELL_SIZE, 15*CELL_SIZE);
+            ctx.fillRect(10*CELL_SIZE, 6*CELL_SIZE, 40*CELL_SIZE, CELL_SIZE);
+            ctx.fillRect(12*CELL_SIZE, 10*CELL_SIZE, CELL_SIZE, 10*CELL_SIZE);
+            ctx.fillRect(47*CELL_SIZE, 10*CELL_SIZE, CELL_SIZE, 10*CELL_SIZE);
         }
         
         drawApple(ctx, apple1);
@@ -204,13 +205,13 @@ function draw() {
 
 function teleport(snake) {
     if (snake.head.x < 0) {
-        snake.head.x = CANVAS_SIZE / CELL_SIZE - 1;
+        snake.head.x = CANVAS_SIZE_X / CELL_SIZE - 1;
     }
     if (snake.head.x >= WIDTH) {
         snake.head.x = 0;
     }
     if (snake.head.y < 0) {
-        snake.head.y = CANVAS_SIZE / CELL_SIZE - 1;
+        snake.head.y = CANVAS_SIZE_Y / CELL_SIZE - 1;
     }
     if (snake.head.y >= HEIGHT) {
         snake.head.y = 0;
@@ -318,7 +319,7 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 2) {
-            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10) {
+            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 12 ) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
@@ -333,7 +334,7 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 3) {
-            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 15 || snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
+            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 10 || snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 15 || snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
@@ -352,7 +353,7 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 4) {
-            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 17 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
+            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 6 || snakes[i].head.x == 30 && snakes[i].head.y >= 10 && snakes[i].head.y < 20) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
@@ -367,7 +368,7 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 5) {
-            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x == 6 && snakes[i].head.y >= 15 && snakes[i].head.y < 30 || snakes[i].head.x == 27 && snakes[i].head.y >= 15 && snakes[i].head.y < 30) {
+            if (snakes[i].head.x >= 10 && snakes[i].head.x < 50 && snakes[i].head.y == 6 || snakes[i].head.x == 12 && snakes[i].head.y >= 10 && snakes[i].head.y < 20 || snakes[i].head.x == 47 && snakes[i].head.y >= 10 && snakes[i].head.y < 20) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
