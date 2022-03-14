@@ -15,9 +15,11 @@ let snake1 = initSnake();
 let apple1 = initApple();
 let apple2 = initApple();
 let love = initLove();
+let thorn = initThorn();
 
 function initGame() {
     move(snake1);
+    move(thorn);
 }
 
 initGame();
@@ -44,7 +46,6 @@ function initDirection() {
 
 function initSnake() {
     return {
-        color: "purple",
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
@@ -55,7 +56,6 @@ function initSnake() {
 
 function initApple() {
     return {
-        color: 'red',
         position: initPosition()
     }
 }
@@ -66,9 +66,11 @@ function initLove() {
     }
 }
 
-function drawCell(ctx, x, y, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+function initThorn() {
+    return {
+        ...initHeadAndBody(),
+        direction: initDirection()
+    }
 }
 
 function drawScore() {
@@ -118,6 +120,12 @@ function drawLove(ctx, love) {
     ctx.drawImage(img, love.position.x * CELL_SIZE, love.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+function drawThorn (ctx, thorn) {
+    let img = new Image();
+    img.src = 'assets/img/thorn.png';
+    ctx.drawImage(img, thorn.head.x * CELL_SIZE, thorn.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
 function isPrima(n) {
     let divider = 0;
     for (let i = 1; i <= n; i++) {
@@ -165,9 +173,12 @@ function draw() {
         }
 
         ctx.fillStyle = '#000000';
-        if (snake1.level == 2) {
+        if (snake1.level == 1) {
+            drawThorn(ctx, thorn);
+        } else if (snake1.level == 2) {
             ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 3) {
+            drawThorn(ctx, thorn);
             ctx.fillRect(4*CELL_SIZE, 10*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
             ctx.fillRect(4*CELL_SIZE, 15*CELL_SIZE, 26*CELL_SIZE, CELL_SIZE);
         } else if (snake1.level == 4) {
@@ -185,8 +196,6 @@ function draw() {
     }, REDRAW_INTERVAL);
 
     setInterval(function() {
-        // ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-
         if (isPrima(snake1.score)) {
             drawLove(ctx, love);
         }
@@ -289,7 +298,26 @@ function checkCollision(snakes) {
     let isCollide = false;
     
     for (let i = 0; i < snakes.length; i++) {
-        if (snakes[i].level == 2) {
+        if (snakes[i].level == 1) {
+            if (snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
+                if (snakes[i].love > 0) {
+                    snakes[i].love--;
+                    die.play();
+                    alert("Be careful!");
+                    snake1 = {
+                        ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    thorn = {
+                        ...thorn, 
+                        ...initHeadAndBody()
+                    };
+                    initGame();
+                } else {
+                    isCollide = true;
+                }
+            }
+        } else if (snakes[i].level == 2) {
             if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
@@ -305,13 +333,17 @@ function checkCollision(snakes) {
                 }
             }
         } else if (snakes[i].level == 3) {
-            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 15) {
+            if (snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 10 || snakes[i].head.x >= 4 && snakes[i].head.x < 30 && snakes[i].head.y == 15 || snakes[i].head.x == thorn.head.x && snakes[i].head.y == thorn.head.y) {
                 if (snakes[i].love > 0) {
                     snakes[i].love--;
                     die.play();
                     alert("Be careful!");
                     snake1 = {
                         ...snake1, 
+                        ...initHeadAndBody()
+                    };
+                    thorn = {
+                        ...thorn, 
                         ...initHeadAndBody()
                     };
                     initGame();
