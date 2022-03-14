@@ -385,7 +385,7 @@ function checkCollision(snakes) {
         
         for (let j = 0; j < snakes.length; j++) {
             for (let k = 1; k < snakes[j].body.length; k++) {
-                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
+                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y || thorn.head.x == snakes[j].body[k].x && thorn.head.y == snakes[j].body[k].y) {
                     if (snakes[i].love > 0) {
                         snakes[i].love--;
                         die.play();
@@ -456,7 +456,6 @@ function turn(snake, direction) {
         snake.direction = direction;
     }
 }
-
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "ArrowLeft") {
