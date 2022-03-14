@@ -185,8 +185,6 @@ function draw() {
     }, REDRAW_INTERVAL);
 
     setInterval(function() {
-        // ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-
         if (isPrima(snake1.score)) {
             drawLove(ctx, love);
         }
@@ -211,6 +209,11 @@ function teleport(snake) {
 function levelUp(snake) {
     if (snake.score % 5 == 0) {
         snake.level++;
+
+        var level =  new Audio();
+        level.src="./assets/sound/level-up.mp3";
+        level.play();
+
         if (snake.level <= 5) {
             alert("Level " + snake.level);
             MOVE_INTERVAL -= 20;
@@ -220,9 +223,6 @@ function levelUp(snake) {
             snake1 = initSnake();
             initGame();
         }
-        var level =  new Audio();
-        level.src="./assets/sound/level-up.mp3";
-        level.play();
     }
 }
 
@@ -231,31 +231,31 @@ function eat(snake) {
     eat.src="./assets/sound/eat.mp3";
 
     if (snake.head.x == apple1.position.x && snake.head.y == apple1.position.y) {
-        apple1.position = initPosition();
+        eat.play();
         snake.score++;
         levelUp(snake);
+        apple1.position = initPosition();
         snake.body.push({x: snake.head.x, y: snake.head.y});
-        eat.play();
     }
 
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
-        apple2.position = initPosition();
+        eat.play();
         snake.score++;
         levelUp(snake);
+        apple2.position = initPosition();
         snake.body.push({x: snake.head.x, y: snake.head.y});
-        eat.play();
     }
 
     if (snake.head.x == love.position.x && snake.head.y == love.position.y) {
-        love.position = initPosition();
-        snake.love++;
-        snake.score++;
-        levelUp(snake);
-        snake.body.push({x: snake.head.x, y: snake.head.y});
-        
         var eatLove =  new Audio();
         eatLove.src="./assets/sound/eatLove.mp3";
         eatLove.play();
+
+        snake.love++;
+        snake.score++;
+        levelUp(snake);
+        love.position = initPosition();
+        snake.body.push({x: snake.head.x, y: snake.head.y});
     }
 }
 
